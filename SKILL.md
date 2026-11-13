@@ -36,7 +36,7 @@ Never execute irreversible or high-blast-radius commands on a vague "yes" or imp
 ## Trigger Actions (Always Halt First)
 
 Halt and require explicit typed target confirmation before running:
-1. **GitHub / Remote Admin**: `gh repo delete`, `gh repo archive`, `gh api -X DELETE` on repos/environments/secrets, deleting release tags or protected branches.
+1. **GitHub / Remote Admin**: `gh repo delete`, `gh repo archive`, `gh api -X DELETE` on repos/environments/secrets, deleting release tags or protected branches, and **modifying, bypassing, or disabling repository rulesets or branch protection** (`PUT`/`PATCH`/`DELETE` on `.../rulesets/...` or `.../branches/.../protection`).
 2. **Git History / Destructive Reset**: `git push --force` (or `--force-with-lease` on shared/default branches), `git filter-repo`, `git reset --hard` with uncommitted changes, `git clean -fdx`, `git branch -D` on unmerged work.
 3. **Filesystem**: `rm -rf` on project roots, `~/.gemini`, `~/.config`, `/etc`, `/boot`, or wildcard globs.
 4. **System / Packages / Data**: `paru -Rns` / `pacman -Rdd` on core/desktop packages, `mkfs`, `dd`, `DROP TABLE/DATABASE`, `TRUNCATE`, cloud bucket/project deletion.
@@ -50,7 +50,7 @@ Halt and require explicit typed target confirmation before running:
    - **What is permanently lost or overwritten** (unmerged commits, remote history, files, stars/issues)
    - **Backup / rollback option** (e.g., archive branch, `.bak`, `snapper` snapshot) if one exists
 3. **Require Typed Confirmation**:
-   Ask the user to reply with the **exact target identifier** (e.g. `CONFIRM DELETE Vikyek/repo-name` or the exact branch/path name) before executing. A generic "ok" or "go ahead" from an earlier turn does **not** authorize a newly discovered destructive target.
+   Ask the user to reply with the **exact target identifier** (e.g. `CONFIRM DELETE Vikyek/repo-name` or the exact branch/path name) before executing. A generic "ok" or "go ahead" from an earlier turn does **not** authorize a newly discovered destructive target, and confirming one gated action (e.g. `CONFIRM FILTER-REPO`) does **not** authorize bypassing/modifying a repository ruleset or branch protection to force-push—each escalation requires its own separate confirmation.
 
 ## Exceptions
 
